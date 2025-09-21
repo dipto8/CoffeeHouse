@@ -1,5 +1,5 @@
 import React from "react";
-import { data } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export default function AddCoffee() {
@@ -50,7 +50,11 @@ export default function AddCoffee() {
       <div className="text-3xl text-center font-bold text-red-600 m-8">
         <h1>AddCoffee</h1>
       </div>
-
+    <Link to='/'> 
+     <div className="ml-8 underline text-xl text-green-500">
+      <h1>Home</h1>
+     </div>
+    </Link>
       <form onSubmit={handleSubmit} className="p-8">
         {/* name and price */}
         <div className="flex gap-2">
