@@ -5,7 +5,7 @@ import { ImBin } from "react-icons/im";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 
-export default function CoffeeCard({ coffee }) {
+export default function CoffeeCard({ coffee, loadedCoffees, setLoadedCoffes }) {
   const { _id, name, price, supplier, taste, category, details, photourl } =
     coffee;
   const handleDelete = (_id) => {
@@ -19,8 +19,8 @@ export default function CoffeeCard({ coffee }) {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/coffee${_id}`,{
-            method:'DELETE'
+        fetch(`http://localhost:5000/coffee${_id}`, {
+          method: "DELETE",
         })
           .then((res) => res.json())
           .then((data) => {
@@ -30,7 +30,11 @@ export default function CoffeeCard({ coffee }) {
                 title: "Deleted!",
                 text: "Your Coffee has been deleted.",
                 icon: "success",
-              });
+              })
+              const remainingCoffee = loadedCoffees.filter(
+                (cof) => cof._id !== _id
+              );
+              setLoadedCoffes(remainingCoffee);
             }
           });
 
@@ -64,11 +68,11 @@ export default function CoffeeCard({ coffee }) {
                   <FaEye />
                 </button>
                 {/* Edite */}
-            <Link to={`updateCoffee/${_id}`}>
-                <button className="btn btn-">
-                  <PiGearBold />
-                </button>
-            </Link>
+                <Link to={`updateCoffee/${_id}`}>
+                  <button className="btn btn-">
+                    <PiGearBold />
+                  </button>
+                </Link>
                 {/* delete */}
                 <button className="btn" onClick={() => handleDelete(_id)}>
                   <ImBin />
