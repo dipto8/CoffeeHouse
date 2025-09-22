@@ -6,6 +6,8 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UpdateCoffee from "./componenets/UpdateCoffee.jsx";
 import AddCoffee from "./componenets/AddCoffee.jsx";
+import Signup from "./componenets/Signup.jsx";
+import Login from "./componenets/Login.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,14 @@ const router = createBrowserRouter([
     path: "/deleteCoffee",
     element: <UpdateCoffee></UpdateCoffee>,
   },
+  {
+    path:"/signup",
+    element:<Signup></Signup>
+  },
+  {
+    path:"/login",
+    element:<Login></Login>
+  }
 ]);
 
 createRoot(document.getElementById("root")).render(
