@@ -1,22 +1,40 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import { data } from "autoprefixer";
 
 export default function Signup() {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, user } = useContext(AuthContext);
 
   const handleSignup = (e) => {
     e.preventDefault();
     const form = e.target;
-    const email = form.name.value;
+    const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
 
-    createUser(email, password).then((result) => {
-      console.log(result.user)
-    })
-    .catch(error=>{
-      console.error(error);
-    })
+    createUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        //New user is created
+        const createdTime = result.user?.metadata?.creationTime
+        const user = { email, createdTime };
+
+        fetch("http://localhost:5000/user", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(user),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+           if(data.insertedId){
+            console.log('User added')
+           }
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (

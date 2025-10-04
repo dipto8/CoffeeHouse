@@ -36,6 +36,7 @@ async function run() {
         await client.connect();
 
         const coffeeCollection = client.db('Coffee_DATABASE').collection('coffee_Coll')
+        const userCollection = client.db('User_Database').collection('new_users')
 
 
         app.get('/coffee', async (req, res) => {
@@ -43,6 +44,8 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result)
         })
+
+
 
         //updateURL
         app.get('/coffee/:id', async (req, res) => {
@@ -63,6 +66,7 @@ async function run() {
 
         })
 
+
         app.put('/coffee/:id', async (req, res) => {
             const id = req.params.id;
             const querry = { _id: new ObjectId(id) }
@@ -70,17 +74,17 @@ async function run() {
             const updatedCoffee = req.body;
             const coffee = {
                 $set: {
-                    name:updatedCoffee.name,
-                    price:updatedCoffee.price,
-                    supplier:updatedCoffee.supplier,
-                    taste:updatedCoffee.taste,
-                    category:updatedCoffee.category,
-                    details:updatedCoffee.details,
-                    photourl:updatedCoffee.photourl,
+                    name: updatedCoffee.name,
+                    price: updatedCoffee.price,
+                    supplier: updatedCoffee.supplier,
+                    taste: updatedCoffee.taste,
+                    category: updatedCoffee.category,
+                    details: updatedCoffee.details,
+                    photourl: updatedCoffee.photourl,
                 }
             }
 
-            const result = await coffeeCollection.updateOne(querry,coffee,options)
+            const result = await coffeeCollection.updateOne(querry, coffee, options)
             res.send(result);
 
         })
@@ -91,6 +95,18 @@ async function run() {
             const result = await coffeeCollection.deleteOne(querry);
             res.send(result);
 
+
+        })
+
+
+        //users API's
+
+        //newUser POST
+        app.post('/user', async(req, res) => {
+            const user = req.body;
+            console.log(user)
+            const result = await userCollection.insertOne(user);
+            res.send(result)
 
         })
 
