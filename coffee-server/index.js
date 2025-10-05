@@ -117,6 +117,15 @@ async function run() {
 
         })
 
+        app.delete('/user/:id',async(req,res)=>{
+            const id = req.params.id;
+            const querry = {_id: new ObjectId(id)};
+            const result = await userCollection.deleteOne(querry);
+            res.send(result);
+
+
+        })
+
 
 
 
