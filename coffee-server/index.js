@@ -101,27 +101,42 @@ async function run() {
 
         //users API's
 
+        app.get('/user', async (req, res) => {
+            const cursor = userCollection.find();
+            const result = await cursor.toArray();
+            res.send(result)
+
+        })
         //newUser POST
-        app.post('/user', async(req, res) => {
+        app.post('/user', async (req, res) => {
             const user = req.body;
             console.log(user)
             const result = await userCollection.insertOne(user);
             res.send(result)
 
         })
-        //
-        app.get('/user',async(req,res)=>{
-            const cursor = userCollection.find();
-            const result =await cursor.toArray();
-            res.send(result)
-
-        })
-
-        app.delete('/user/:id',async(req,res)=>{
+        //delete
+        app.delete('/user/:id', async (req, res) => {
             const id = req.params.id;
-            const querry = {_id: new ObjectId(id)};
+            const querry = { _id: new ObjectId(id) };
             const result = await userCollection.deleteOne(querry);
             res.send(result);
+
+
+        })
+        //Update
+        app.patch('/user', async(req, res) => {
+           const user = req.body;
+           const querry ={email: user.email};
+           const UpdatedDoc ={
+            $set:{
+                lastLoggedIn :user.lastLoggedin
+                
+
+            }
+           }
+           const result = await userCollection.updateOne(querry, UpdatedDoc)
+           res.send(result);
 
 
         })

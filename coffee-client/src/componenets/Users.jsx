@@ -42,7 +42,7 @@ function Users() {
                 <th>1</th>
                 <td>{user.email}</td>
                 <td>{user.createdTime}</td>
-                <td></td>
+                <td>{user.lastLoggedin}</td>
                 <td>
                   <button
                     onClick={() => handleDelete(user._id)}
